@@ -1,0 +1,347 @@
+{
+	"info": {
+		"_postman_id": "6fadc924-530a-409f-9d37-08e249eb358d",
+		"name": "ShoppingAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "9578175-6fadc924-530a-409f-9d37-08e249eb358d"
+	},
+	"item": [
+		{
+			"name": "List of Customers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "60c5094d-63fa-4a41-bc5a-38da66c1d101",
+						"exec": [
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 200\", () => {\r",
+							"  pm.expect(pm.response.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code name has string\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Value has right type\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"  pm.expect(jsonData[0].name)\r",
+							"    .to.be.a(\"string\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"id": "e24c8f69-b173-4cb1-bb7c-9c2f1c484adc",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseURL}}/Customers",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"Customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Customer By Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6241d125-46fa-428e-8ba7-44d1215e9c0c",
+						"exec": [
+							"pm.test(\"Person is Robin \", () => {\r",
+							"  const responseJson = pm.response.json();\r",
+							"  pm.expect(responseJson.name).to.eql(\"John Robin\");\r",
+							"  pm.expect(responseJson.customerId).to.eql(1);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 200\", () => {\r",
+							"  pm.expect(pm.response.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Test data type of the response\", () => {\r",
+							"  pm.expect(jsonData).to.be.an(\"object\");\r",
+							"  pm.expect(jsonData.name).to.be.a(\"string\");\r",
+							"  pm.expect(jsonData.customerId).to.be.a(\"number\");\r",
+							"  \r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"id": "49081f13-1a8a-4d45-a4f1-640ae7f40560",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseURL}}/Customers/1",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"Customers",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "new Customer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b38dd716-d8d5-4930-b82c-4cfe758a5a8c",
+						"exec": [
+							"pm.test(\"response must be valid and have a body\", function () {\r",
+							"     pm.response.to.be.success;\r",
+							"     pm.response.to.be.withBody;\r",
+							"     pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"id": "a91a77f1-cb8b-4496-9a1c-cf8e4d675dda",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"customerId\": 8,\r\n        \"name\": \"mimi mohammed\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/Customers",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"Customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete customer",
+			"id": "9fe5b5bd-382f-4501-a4f7-1debc2ecd558",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"orderId\": 11,\r\n    \"customerId\": 1,\r\n    \"date\": \"2023-12-12T00:00:00\",\r\n    \"amount\": 170\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/Customers/2",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"Customers",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List of Orders",
+			"id": "2ecdd28c-acc4-4b3a-8b22-1576f68333bd",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseURL}}/Orders",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"Orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order By Id",
+			"id": "81e68fb9-0340-40b2-af7b-a8ddf29afff8",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseURL}}/Orders/2",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"Orders",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "new Order",
+			"id": "881497d5-880b-47d1-ab57-986ed45e3b16",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"orderId\": 11,\r\n    \"customerId\": 1,\r\n    \"date\": \"2023-12-12T00:00:00\",\r\n    \"amount\": 130\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/Orders",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"Orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete order",
+			"id": "7bd16cea-8104-4b46-a244-f98b0408359f",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"orderId\": 11,\r\n    \"customerId\": 1,\r\n    \"date\": \"2023-12-12T00:00:00\",\r\n    \"amount\": 130\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/Orders/11",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"Orders",
+						"11"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "f79e4f31-81f5-47cb-a93c-48b42e046b3f",
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "815ddb91-4dcc-4435-a895-9bd4c35b7247",
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "da7dacb1-2b72-4c41-8d17-132cdc90fa35",
+			"key": "BaseURL",
+			"value": "http://localhost:5268"
+		},
+		{
+			"id": "43f746a1-ff99-49b4-90ce-cbcd09f625a6",
+			"key": "customerId",
+			"value": "1",
+			"type": "default"
+		}
+	]
+}
